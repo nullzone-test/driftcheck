@@ -1,17 +1,22 @@
-.PHONY: install test lint verify clean
+.PHONY: install setup test lint verify clean
+
+setup:
+	@python3 -m venv .venv
+	@. .venv/bin/activate && pip install -e ".[dev]" -q
+	@python3 scripts/preflight.py
+	@echo "✓ Environment ready"
+
+test:
+	pytest -v --cov=driftcheck
 
 install:
 	pip install -e ".[dev]"
-
-test:
-	@python3 scripts/preflight.py
-	pytest -v --cov=driftcheck
 
 lint:
 	ruff check . && mypy driftcheck/
 
 verify:
-	@python -c "import driftcheck; print(f'v{driftcheck.__version__} OK')"
+	@python3 -c "import driftcheck; print(f'v{driftcheck.__version__} OK')"
 
 clean:
-	rm -rf dist/ build/ *.egg-info
+	rm -rf dist/ build/ *.egg-info .venv
