@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "driftcheck"
+version = "0.3.1"
+description = "Lightweight model drift detection for production ML pipelines"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.9"
+authors = [
+    { name = "nullzone-test", email = "nullzone-test@users.noreply.github.com" }
+]
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "scipy>=1.11",
+    "pyarrow>=14.0",
+    "pyyaml>=6.0",
+    "requests>=2.31",
+    "click>=8.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.1",
+    "mypy>=1.7",
+]
+s3 = ["boto3>=1.29"]
+
+[project.scripts]
+driftcheck = "driftcheck.cli:main"
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
